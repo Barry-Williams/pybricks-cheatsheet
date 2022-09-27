@@ -1,0 +1,621 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 15 (filtered)">
+<title>EV3_Python</title>
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Helvetica;
+	panose-1:2 11 6 4 2 2 2 2 2 4;}
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Lucida Console";
+	panose-1:2 11 6 9 4 5 4 2 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:1.0pt;
+	margin-left:0cm;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+code
+	{font-family:"Courier New";}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	margin-right:0cm;
+	margin-left:0cm;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;}
+.MsoChpDefault
+	{font-size:10.0pt;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:36.0pt 36.0pt 36.0pt 36.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-AU>
+
+<div class=WordSection1>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'>#!/usr/bin/env pybricks-micropython</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'># Add the modules we need to control the robot</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'># We don't need all of these</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#C586C0'>from</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'> pybricks.hubs </span><span style='font-size:10.5pt;font-family:
+Consolas;color:#C586C0'>import</span><span style='font-size:10.5pt;font-family:
+Consolas;color:#D4D4D4'> EV3Brick</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#C586C0'>from</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'> pybricks.ev3devices </span><span style='font-size:10.5pt;
+font-family:Consolas;color:#C586C0'>import</span><span style='font-size:10.5pt;
+font-family:Consolas;color:#D4D4D4'> (Motor, TouchSensor, ColorSensor,</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;InfraredSensor,
+UltrasonicSensor, GyroSensor)</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#C586C0'>from</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'> pybricks.parameters </span><span style='font-size:10.5pt;
+font-family:Consolas;color:#C586C0'>import</span><span style='font-size:10.5pt;
+font-family:Consolas;color:#D4D4D4'> Port, Stop, Direction, Button, Color</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#C586C0'>from</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'> pybricks.tools </span><span style='font-size:10.5pt;font-family:
+Consolas;color:#C586C0'>import</span><span style='font-size:10.5pt;font-family:
+Consolas;color:#D4D4D4'> wait, StopWatch, DataLog</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#C586C0'>from</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'> pybricks.robotics </span><span style='font-size:10.5pt;
+font-family:Consolas;color:#C586C0'>import</span><span style='font-size:10.5pt;
+font-family:Consolas;color:#D4D4D4'> DriveBase</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#C586C0'>from</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'> pybricks.media.ev3dev </span><span style='font-size:10.5pt;
+font-family:Consolas;color:#C586C0'>import</span><span style='font-size:10.5pt;
+font-family:Consolas;color:#D4D4D4'> SoundFile, ImageFile</span></p>
+
+<p class=MsoNormal>These 2 sections are normally joined together I have
+separated them to show that they do different things</p>
+
+<p class=MsoNormal>Most of this gets put in automatically when you use the
+drive base example project. What needs to be added are some module above (only
+if you intend to use them), arm_motor and sensors below (again only add them if
+you need them). <b>You do not need to add the text starting with # as this just
+explains what the code does.</b></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'># Initialize the EV3 Brick.</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>ev3 = EV3Brick()</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'># Initialize the motors.</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'># Check motor connected and port correct</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>left_motor = Motor(Port.B)</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>right_motor = Motor(Port.C)</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>arm_motor = Motor(Port.A)</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'># Initialize the drive base.</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>robot = DriveBase(left_motor, right_motor, </span><span
+style='font-size:10.5pt;font-family:Consolas;color:#9CDCFE'>wheel_diameter</span><span
+style='font-size:10.5pt;font-family:Consolas;color:#D4D4D4'>=</span><span
+style='font-size:10.5pt;font-family:Consolas;color:#B5CEA8'>55.5</span><span
+style='font-size:10.5pt;font-family:Consolas;color:#D4D4D4'>, </span><span
+style='font-size:10.5pt;font-family:Consolas;color:#9CDCFE'>axle_track</span><span
+style='font-size:10.5pt;font-family:Consolas;color:#D4D4D4'>=</span><span
+style='font-size:10.5pt;font-family:Consolas;color:#B5CEA8'>104</span><span
+style='font-size:10.5pt;font-family:Consolas;color:#D4D4D4'>)</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'># Initialize sensors</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'># If sensors are not connected&nbsp;or port not correct it will
+cause your program to crash </span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'># Delete or # out sensors not connected (press Ctrl + /)</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>gyro = GyroSensor(Port.S1)</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'># colour = ColorSensor(Port.S2)</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>ultraSonic = UltrasonicSensor(Port.S3)</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'># touch = TouchSensor(Port.S4)</span></p>
+
+<p class=MsoNormal>This function I have created to use the gyro sensor to turn
+instead of estimating by wheel turn</p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'># Create function for gyroTurn</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>LEFT = -</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#B5CEA8'>1</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'> </span><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'># Left negative</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>RIGHT = </span><span style='font-size:10.5pt;font-family:Consolas;
+color:#B5CEA8'>1</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'> </span><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'># Right positive</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#569CD6'>def</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'> </span><span style='font-size:10.5pt;font-family:Consolas;
+color:#DCDCAA'>turn</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>(</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#9CDCFE'>direction</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>, </span><span style='font-size:10.5pt;font-family:Consolas;
+color:#9CDCFE'>angle</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>, </span><span style='font-size:10.5pt;font-family:Consolas;
+color:#9CDCFE'>speed</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>=</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#B5CEA8'>50</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>):</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp; &nbsp; gyro.reset_angle(</span><span style='font-size:
+10.5pt;font-family:Consolas;color:#B5CEA8'>0</span><span style='font-size:10.5pt;
+font-family:Consolas;color:#D4D4D4'>)</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp; &nbsp; robot.stop()</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp; &nbsp; </span><span style='font-size:10.5pt;font-family:
+Consolas;color:#C586C0'>while</span><span style='font-size:10.5pt;font-family:
+Consolas;color:#D4D4D4'> </span><span style='font-size:10.5pt;font-family:Consolas;
+color:#DCDCAA'>abs</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#FFD966'>(</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>gyro.angle</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#7030A0'>()</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#FFD966'>)</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'> &lt; angle:</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp; &nbsp; &nbsp; &nbsp; right_motor.run(speed * direction)</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp; &nbsp; &nbsp; &nbsp; left_motor.run(speed * direction * -</span><span
+style='font-size:10.5pt;font-family:Consolas;color:#B5CEA8'>1</span><span
+style='font-size:10.5pt;font-family:Consolas;color:#D4D4D4'>)</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp; &nbsp; right_motor.stop()</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp; &nbsp; left_motor.stop()</span></p>
+
+<p class=MsoNormal>Some of you might want to try and figure out what this is doing.
+Could you improve it?</p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'>#Examples of how to use turn</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>turn(LEFT, </span><span style='font-size:10.5pt;font-family:
+Consolas;color:#B5CEA8'>90</span><span style='font-size:10.5pt;font-family:
+Consolas;color:#D4D4D4'>) </span><span style='font-size:10.5pt;font-family:
+Consolas;color:#6A9955'># Turn left 90 degrees at speed 50</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>turn(RIGHT, </span><span style='font-size:10.5pt;font-family:
+Consolas;color:#B5CEA8'>120</span><span style='font-size:10.5pt;font-family:
+Consolas;color:#D4D4D4'>) </span><span style='font-size:10.5pt;font-family:
+Consolas;color:#6A9955'># Turn right 120 degrees at speed 50</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>turn(LEFT, </span><span style='font-size:10.5pt;font-family:
+Consolas;color:#B5CEA8'>90</span><span style='font-size:10.5pt;font-family:
+Consolas;color:#D4D4D4'>, </span><span style='font-size:10.5pt;font-family:
+Consolas;color:#B5CEA8'>20</span><span style='font-size:10.5pt;font-family:
+Consolas;color:#D4D4D4'>) </span><span style='font-size:10.5pt;font-family:
+Consolas;color:#6A9955'># Turn left 90 degrees at speed 20</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>turn(RIGHT, </span><span style='font-size:10.5pt;font-family:
+Consolas;color:#B5CEA8'>20</span><span style='font-size:10.5pt;font-family:
+Consolas;color:#D4D4D4'>, </span><span style='font-size:10.5pt;font-family:
+Consolas;color:#B5CEA8'>10</span><span style='font-size:10.5pt;font-family:
+Consolas;color:#D4D4D4'>) </span><span style='font-size:10.5pt;font-family:
+Consolas;color:#6A9955'># Turn right 20 degrees at speed 10</span></p>
+
+<p class=MsoNormal>Rather than give examples of ever other code I suggest you
+experiment and find code using auto completion. E.G. </p>
+
+<p class=MsoNormal><b>robot.</b><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8592;</span>if you type either of these VS Code
+should pop up suggestion Press tab to accept</p>
+
+<p class=MsoNormal><b>arm_motor.</b> &nbsp;&#8592; and experiment if you
+need more help put your mouse over it should pop up information</p>
+
+<p class=MsoNormal>As you experiment you may have found commands like</p>
+
+<p class=MsoNormal><b>robot.distance()</b></p>
+
+<p class=MsoNormal><b>arm_motor.angle()</b></p>
+
+<p class=MsoNormal><b>gyro.angle()</b></p>
+
+<p class=MsoNormal>but these commands by themselves appear to do nothing. These
+commands return the value and can be useful in logic commands like if and while
+we can look at later but first lets see what these values are. There are 2 ways
+we can get python to show us information.</p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#DCDCAA'>print</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>(robot.distance()) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span
+style='font-size:10.5pt;font-family:Consolas;color:#6A9955'># This prints out
+to VS Code in the output window</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>ev3.screen.print(robot.distance()) </span><span
+style='font-size:10.5pt;font-family:Consolas;color:#6A9955'># This prints out
+on the EV3 screen</span></p>
+
+<p class=MsoNormal>The problem now is this will only print the value once and
+not update it. We need to use a loop to get it to print continuously.</p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#C586C0'>while</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'> </span><span style='font-size:10.5pt;font-family:Consolas;
+color:#569CD6'>True</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>:</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp; &nbsp; </span><span style='font-size:10.5pt;font-family:
+Consolas;color:#DCDCAA'>print</span><span style='font-size:10.5pt;font-family:
+Consolas;color:#D4D4D4'>(robot.distance()) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp; &nbsp; ev3.screen.print(robot.distance())</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'># Initially this will just display 0 but if you move the push
+the robot or move the wheels the value will change</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#6A9955'># This will run forever so you can stop it by pressing stop in
+VS Code or the button under the screen on the robot</span></p>
+
+<p class=MsoNormal>Try adding robot.drive(100, 0) to the above code (remember
+it will run forever, have someone ready to catch the robot and somebody stop
+it).</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>Try this</p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#C586C0'>while</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'> robot.distance() &lt; </span><span style='font-size:10.5pt;
+font-family:Consolas;color:#B5CEA8'>1000</span><span style='font-size:10.5pt;
+font-family:Consolas;color:#D4D4D4'>:</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp; &nbsp; robot.drive(</span><span style='font-size:10.5pt;
+font-family:Consolas;color:#B5CEA8'>100</span><span style='font-size:10.5pt;
+font-family:Consolas;color:#D4D4D4'>,</span><span style='font-size:10.5pt;
+font-family:Consolas;color:#B5CEA8'>0</span><span style='font-size:10.5pt;
+font-family:Consolas;color:#D4D4D4'>)</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp; &nbsp; </span><span style='font-size:10.5pt;font-family:
+Consolas;color:#DCDCAA'>print</span><span style='font-size:10.5pt;font-family:
+Consolas;color:#D4D4D4'>(robot.distance()) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp; &nbsp; ev3.screen.print(robot.distance())</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>robot.stop()</span></p>
+
+<p class=MsoNormal>This might achieve the same results as robot.straight(1000)
+and may not appear useful but there are other occasions where it might be
+useful to use code like this when the basic blocks do not do what you need. Go
+back and look at the gyro turn code.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>Python can use the following comparators:</p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 align=left
+ width=281 style='width:210.7pt;border-collapse:collapse;margin-left:6.75pt;
+ margin-right:6.75pt;margin-bottom:-1.25pt'>
+ <thead>
+  <tr style='height:17.65pt'>
+   <td style='border:none;border-bottom:solid #434343 1.0pt;background:black;
+   padding:3.75pt 7.5pt 3.75pt 7.5pt;height:17.65pt'>
+   <p class=MsoNormal style='margin-bottom:15.0pt'><span style='font-size:10.5pt;
+   font-family:"Helvetica",sans-serif;color:#B6B6B6'>Operator</span></p>
+   </td>
+   <td style='border:none;border-bottom:solid #434343 1.0pt;background:black;
+   padding:3.75pt 7.5pt 3.75pt 7.5pt;height:17.65pt'>
+   <p class=MsoNormal style='margin-bottom:15.0pt'><span style='font-size:10.5pt;
+   font-family:"Helvetica",sans-serif;color:#B6B6B6'>Meaning</span></p>
+   </td>
+  </tr>
+ </thead>
+ <tr style='height:9.65pt'>
+  <td style='border:none;border-bottom:solid #434343 1.0pt;background:black;
+  padding:3.75pt 7.5pt 3.75pt 7.5pt;height:9.65pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+  style='font-size:10.0pt;font-family:"Lucida Console";color:#EFEFEF'>==</span></p>
+  </td>
+  <td style='border:none;border-bottom:solid #434343 1.0pt;background:black;
+  padding:3.75pt 7.5pt 3.75pt 7.5pt;height:9.65pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+  style='font-size:10.5pt;font-family:"Helvetica",sans-serif;color:#F0E7D5'>Equal
+  to</span></p>
+  </td>
+ </tr>
+ <tr style='height:9.9pt'>
+  <td style='border:none;border-bottom:solid #434343 1.0pt;background:black;
+  padding:3.75pt 7.5pt 3.75pt 7.5pt;height:9.9pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+  style='font-size:10.0pt;font-family:"Lucida Console";color:#EFEFEF'>!=</span></p>
+  </td>
+  <td style='border:none;border-bottom:solid #434343 1.0pt;background:black;
+  padding:3.75pt 7.5pt 3.75pt 7.5pt;height:9.9pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+  style='font-size:10.5pt;font-family:"Helvetica",sans-serif;color:#F0E7D5'>Not
+  equal to</span></p>
+  </td>
+ </tr>
+ <tr style='height:9.9pt'>
+  <td style='border:none;border-bottom:solid #434343 1.0pt;background:black;
+  padding:3.75pt 7.5pt 3.75pt 7.5pt;height:9.9pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+  style='font-size:10.0pt;font-family:"Lucida Console";color:#EFEFEF'>&lt;</span><span
+  style='font-size:10.5pt;font-family:"Helvetica",sans-serif;color:#F0E7D5'>&nbsp;</span></p>
+  </td>
+  <td style='border:none;border-bottom:solid #434343 1.0pt;background:black;
+  padding:3.75pt 7.5pt 3.75pt 7.5pt;height:9.9pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+  style='font-size:10.5pt;font-family:"Helvetica",sans-serif;color:#F0E7D5'>Less
+  than</span></p>
+  </td>
+ </tr>
+ <tr style='height:9.9pt'>
+  <td style='border:none;border-bottom:solid #434343 1.0pt;background:black;
+  padding:3.75pt 7.5pt 3.75pt 7.5pt;height:9.9pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+  style='font-size:10.0pt;font-family:"Lucida Console";color:#EFEFEF'>&gt;</span><span
+  style='font-size:10.5pt;font-family:"Helvetica",sans-serif;color:#F0E7D5'>&nbsp;</span></p>
+  </td>
+  <td style='border:none;border-bottom:solid #434343 1.0pt;background:black;
+  padding:3.75pt 7.5pt 3.75pt 7.5pt;height:9.9pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+  style='font-size:10.5pt;font-family:"Helvetica",sans-serif;color:#F0E7D5'>Greater
+  Than</span></p>
+  </td>
+ </tr>
+ <tr style='height:9.65pt'>
+  <td style='border:none;border-bottom:solid #434343 1.0pt;background:black;
+  padding:3.75pt 7.5pt 3.75pt 7.5pt;height:9.65pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+  style='font-size:10.0pt;font-family:"Lucida Console";color:#EFEFEF'>&lt;=</span></p>
+  </td>
+  <td style='border:none;border-bottom:solid #434343 1.0pt;background:black;
+  padding:3.75pt 7.5pt 3.75pt 7.5pt;height:9.65pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+  style='font-size:10.5pt;font-family:"Helvetica",sans-serif;color:#F0E7D5'>Less
+  than or Equal to</span></p>
+  </td>
+ </tr>
+ <tr style='height:.7pt'>
+  <td style='border:none;border-bottom:solid #434343 1.0pt;background:black;
+  padding:3.75pt 7.5pt 3.75pt 7.5pt;height:.7pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+  style='font-size:10.0pt;font-family:"Lucida Console";color:#EFEFEF'>&gt;=</span></p>
+  </td>
+  <td style='border:none;border-bottom:solid #434343 1.0pt;background:black;
+  padding:3.75pt 7.5pt 3.75pt 7.5pt;height:.7pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><span
+  style='font-size:10.5pt;font-family:"Helvetica",sans-serif;color:#F0E7D5'>Greater
+  than or Equal to</span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal>In addition to using while we can also use if</p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>robot.drive(</span><span style='font-size:10.5pt;font-family:
+Consolas;color:#B5CEA8'>100</span><span style='font-size:10.5pt;font-family:
+Consolas;color:#D4D4D4'>,</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#B5CEA8'>0</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>)</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#C586C0'>if</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'> robot.distance() &gt; </span><span style='font-size:10.5pt;
+font-family:Consolas;color:#B5CEA8'>1000</span><span style='font-size:10.5pt;
+font-family:Consolas;color:#D4D4D4'>:</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp; &nbsp; robot.stop()</span></p>
+
+<p class=MsoNormal>This does not actually work as the robot.drive(100,0) needs
+to be with in a loop otherwise it just stops but I just wanted to give a simple
+example.</p>
+
+<p class=MsoNormal>It might not be necessary to use if but sometimes it can be
+useful.</p>
+
+<p class=MsoNormal>Also notice I have flipped the less than (&lt;) to a greater
+than(&lt;)</p>
+
+<p class=MsoNormal>Why do you think I have done this?</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>There is one more type of loop we can use if we just want to
+run code a set number of times</p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#C586C0'>for</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'> i </span><span style='font-size:10.5pt;font-family:Consolas;
+color:#C586C0'>in</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'> </span><span style='font-size:10.5pt;font-family:Consolas;
+color:#DCDCAA'>range</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>(</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#B5CEA8'>3</span><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>):</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp; &nbsp; robot.straight(</span><span style='font-size:10.5pt;
+font-family:Consolas;color:#B5CEA8'>200</span><span style='font-size:10.5pt;
+font-family:Consolas;color:#D4D4D4'>)</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+14.25pt;background:#1E1E1E'><span style='font-size:10.5pt;font-family:Consolas;
+color:#D4D4D4'>&nbsp; &nbsp; turn(RIGHT, </span><span style='font-size:10.5pt;
+font-family:Consolas;color:#B5CEA8'>20</span><span style='font-size:10.5pt;
+font-family:Consolas;color:#D4D4D4'>)</span></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>this code will run <span style='color:white;background:black'>robot.straight(200)</span><span
+style='color:white'> </span>and <span style='color:white;background:black'>turn(RIGHT),
+20)</span><span style='color:white'> </span><span style='color:red'>3 </span>times</p>
+
+</div>
+
+</body>
+
+</html>
